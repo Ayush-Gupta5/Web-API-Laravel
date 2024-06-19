@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\JwtMiddleware;
 use App\Http\Controllers\API\AccountController;
 
 // Route::get('/user', function (Request $request) {
@@ -15,7 +16,7 @@ Route::post('login',[AccountController::class,'login'])->name('login');
 Route::get('verifyEmail/{token}',[AccountController::class,'verifyEmail'])->name('verifyEmail');
 
 //Protected Route
-Route::group(['middleware'=>['auth:api']],
+Route::group(['middleware'=>[JwtMiddleware::class]],
 function(){
 
     Route::get('profile',[AccountController::class,'profile'])->name('profile');
