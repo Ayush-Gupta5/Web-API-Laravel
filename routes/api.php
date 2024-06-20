@@ -12,14 +12,15 @@ use App\Http\Controllers\API\AccountController;
 
 //Open Route
 Route::post('register',[AccountController::class,'register'])->name('register');
-Route::post('login',[AccountController::class,'login'])->name('login');
 Route::get('verifyEmail/{token}',[AccountController::class,'verifyEmail'])->name('verifyEmail');
+Route::post('forget-password',[AccountController::class,'forgetPassword'])->name('forgetPassword');
+Route::post('reset-password/{token}',[AccountController::class,'resetPassword'])->name('resetPassword');
+Route::post('login',[AccountController::class,'login'])->name('login');
 
 //Protected Route
 Route::group(['middleware'=>[JwtMiddleware::class]],
 function(){
 
     Route::get('profile',[AccountController::class,'profile'])->name('profile');
-    Route::get('refresh-token',[AccountController::class,'refreshToken'])->name('refreshToken');
-    Route::get('logout',[AccountController::class,'logout'])->name('logout');
+    Route::post('user-reset-password/',[AccountController::class,'userResetPassword'])->name('userResetPassword');
 });
