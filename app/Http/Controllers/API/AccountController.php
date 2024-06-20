@@ -95,7 +95,7 @@ class AccountController extends Controller
             $user = Auth::user();
 
             if ($user->email_verified != '1') {
-                return response()->json(['message' => 'Your email is not verified']);
+                return response()->json(['message' => 'Please verify your email']);
             }
 
             // Update last login time
@@ -193,18 +193,19 @@ class AccountController extends Controller
         ]);
     }
 
-    public function userResetPassword(Request $request){
+    public function userResetPassword(Request $request)
+    {
         $request->validate([
-            'old_password'=>'required',
-            'new_password'=>'required|confirmed'
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed'
         ]);
-        $token=$request->header('Authorization');
-        $key=env('JWT_SECRET');
-        $credentials=JWT::decode($token,new Key($key,'HS256'));
+        $token = $request->header('Authorization');
+        $key = env('JWT_SECRET');
+        $credentials = JWT::decode($token, new Key($key, 'HS256'));
 
-        $user=User::find($credentials->user_id);
+        $user = User::find($credentials->user_id);
 
-        if(!$user){
+        if (!$user) {
             return response()->json([
                 'status' => false,
                 'message' => 'User not found'

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\JwtMiddleware;
 use App\Http\Controllers\API\AccountController;
+use App\Http\Controllers\API\PostController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -23,4 +24,5 @@ function(){
 
     Route::get('profile',[AccountController::class,'profile'])->name('profile');
     Route::post('user-reset-password/',[AccountController::class,'userResetPassword'])->name('userResetPassword');
+    Route::apiResource('posts', PostController::class);
 });
