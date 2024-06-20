@@ -14,7 +14,6 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
-        $middleware->append(JwtMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
