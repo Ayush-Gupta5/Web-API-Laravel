@@ -32,5 +32,6 @@ Route::group(
         Route::apiResource('post', PostController::class);
         Route::post('comment/{id}', [HomeController::class, 'comment'])->name('comment');
         Route::post('update-comment/{id}', [HomeController::class, 'updateComment'])->name('updateComment');
+        Route::delete('delete-comment/{id}', [HomeController::class, 'deleteComment'])->name('deleteComment');
     }
 );

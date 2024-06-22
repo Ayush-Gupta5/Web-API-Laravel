@@ -115,4 +115,34 @@ class HomeController extends Controller
 
         return response()->json(['message' => 'Comment updated successfully', 'comment' => $comment], 200);
     }
+
+    public function deleteComment(Request $request, string $id)
+    {
+        $token = $request->header('Authorization');
+
+        if (!$token) {
+            return response()->json(['message' => 'Please log in to update the comment'], 401);
+        }
+
+        $key = env('JWT_SECRET');
+        try {
+            $credentials = JWT::decode($token, new Key($key, 'HS256'));
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Invalid token'], 401);
+        }
+
+        $comment = Comment::where('id', $id)->first();
+
+        if (!$comment) {
+            return response()->json(['message' => 'Comment not found'], 404);
+        }
+
+        if ($comment->user_id != $credentials->user_id) {
+            return response()->json(['message' => 'You can only delete your own comment'], 403);
+        }
+
+        $comment->delete();
+
+        return response()->json(['message' => 'Comment deleted successfully'], 200);
+    }
 }
